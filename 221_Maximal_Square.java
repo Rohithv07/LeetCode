@@ -21,3 +21,33 @@ class Solution {
         return length * length;
     }
 }
+
+// faster 3ms
+
+class Solution {
+    public int maximalSquare(char[][] matrix) {
+        int row = matrix.length;
+        if (row == 0)
+            return 0;
+        int col = matrix[0].length;
+        int [][] dp = new int [row][col];
+        int max = 0;
+        for (int i=0; i<row; i++) {
+            for (int j=0; j<col; j++) {
+                if (matrix[i][j] == '0')
+                    dp[i][j] = matrix[i][j] - '0';
+                else if (matrix[i][j] == '1' && i-1 >= 0 && j-1 >= 0 && (dp[i-1][j] != '0' || dp[i][j-1] != '0' || dp[i-1][j-1] != '0'))
+                    dp[i][j] = 1 + Math.min(dp[i-1][j], Math.min(dp[i][j-1], dp[i-1][j-1]));
+                else
+                    dp[i][j] = matrix[i][j] - '0';
+            }
+        }
+        for (int i=0; i<row; i++) {
+            for (int j=0; j<col; j++) {
+                if (dp[i][j] > max)
+                    max = dp[i][j];
+            }
+        }
+        return max * max;
+    }
+}
