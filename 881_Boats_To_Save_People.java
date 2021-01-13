@@ -35,6 +35,7 @@ public class Solution {
 
 public class Solution {
 	public int numRescueBoats(int [] weights, int limit) {
+		Arrays.sort(weights);
 		int length = weights.length.
 		int answer = 0;
 		// we take left pointer as 0th index
