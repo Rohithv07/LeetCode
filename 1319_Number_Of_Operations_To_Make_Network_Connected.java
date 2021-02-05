@@ -41,3 +41,47 @@ class Solution {
         return 1;
     }
 }
+
+
+
+
+
+
+// using hashmap
+class Solution {
+    public int makeConnected(int n, int[][] connections) {
+        if (connections.length < n - 1)
+            return -1;
+        Map<Integer, List<Integer>> graph = buildGraph(connections, n);
+        int operations = 0;
+        boolean [] visited = new boolean[n];
+        for (int i=0; i<n; i++) {
+            operations += dfsHelper(graph, visited, i);
+        }
+        return operations - 1;
+    }
+    
+    public int dfsHelper(Map<Integer, List<Integer>> graph, boolean [] visited, int comp) {
+        if (visited[comp])
+            return 0;
+        visited[comp] = true;
+        List<Integer> children = graph.get(comp);
+        for (Integer child : children) {
+            if (!visited[child])
+                dfsHelper(graph, visited, child);
+        }
+        return 1;
+    }
+    
+    public Map<Integer, List<Integer>> buildGraph(int [][] connections, int n) {
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (int i=0; i<n; i++) {
+            graph.put(i, new ArrayList<>());
+        }
+        for (int [] connection : connections) {
+            graph.computeIfAbsent(connection[0], x -> new ArrayList<>()).add(connection[1]);
+            graph.computeIfAbsent(connection[1], x -> new ArrayList<>()).add(connection[0]);
+        }
+        return graph;
+    }
+}
