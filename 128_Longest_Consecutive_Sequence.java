@@ -16,3 +16,25 @@ class Solution {
 		return res;
 	}
 }
+
+
+
+// using hashset
+
+int result = 0;
+        Set<Integer> set = new HashSet<>();
+        for (int number : nums) {
+            set.add(number);
+        }
+        for (int number : nums) {
+            int left = number - 1;
+            int right = number + 1;
+            while (set.remove(left))
+                left--;
+            while (set.remove(right))
+                right ++;
+            result = Math.max(result, right - left - 1);
+            if (set.isEmpty())
+                return result;
+        }
+        return result;
