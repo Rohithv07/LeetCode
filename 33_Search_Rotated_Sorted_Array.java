@@ -30,3 +30,39 @@ class Solution {
         return -1;
     }
 }
+
+
+
+// single pass - ref :- https://www.youtube.com/watch?v=oTfPJKGEHcc&t=324s
+class Solution {
+    public int search(int[] nums, int target) {
+        if (nums == null || nums.length == 0)
+            return -1;
+        int length = nums.length;
+        int low = 0;
+        int high = length - 1;
+        while (low <= high) {
+            int middle = low + (high - low) / 2;
+            // there will be atleast one increasing part
+            // we check whetehr our target reside in it
+            if (nums[middle] == target) {
+                return middle;
+            }
+            // our increasing sequence is in the left part and check whether target reside there
+            else if (nums[middle] >= nums[low]) {
+                if (nums[low] <= target && nums[middle] >= target)
+                    high = middle - 1;
+                else
+                    low = middle + 1;
+            }
+            // out increasing sequence is in the right part and check whether the target reside there
+            else if (nums[middle] < nums[low]) {
+                if (nums[middle] <= target && nums[high] >= target)
+                    low = middle + 1;
+                else
+                    high = middle - 1;
+            }
+        }
+        return -1;
+    }
+}
