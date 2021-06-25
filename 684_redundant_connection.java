@@ -64,6 +64,70 @@ class UnionFind {
     }
 }
 
+// same method but by using the change in component becuase after union, the component changes, so we can make use of this propety to find redundant
+
+class Solution {
+    public int[] findRedundantConnection(int[][] edges) {
+        UnionFind uf = new UnionFind(edges.length);
+        for (int [] edge : edges) {
+            int component = uf.getComponent();
+            uf.union(edge[0] - 1, edge[1] - 1);
+            if (component == uf.getComponent())
+                return new int [] {edge[0], edge[1]};
+        }
+        return new int [] {};
+    }
+    
+}
+
+class UnionFind {
+    int size;
+    int component;
+    int [] parent;
+    int [] rank;
+    UnionFind(int n) {
+        if (n <= 0)
+            throw new IllegalArgumentException("n cant be zero or negative");
+        size = n;
+        component = n;
+        parent = new int [n];
+        rank = new int [n];
+        for (int i=0; i<n; i++) {
+            parent[i] = i;
+        }
+    }
+    
+    int find(int p) {
+        while (p != parent[p]) {
+            parent[p] = parent[parent[p]];
+            p = parent[p];
+        }
+        return p;
+    }
+    
+    void union(int p, int q) {
+        int rootP = find(p);
+        int rootQ = find(q);
+        if (rootP == rootQ) {
+            return;
+        }
+        if (rank[rootP] < rank[rootQ]) {
+            parent[rootP] = rootQ;
+        }
+        else {
+            parent[rootQ] = rootP;
+            if (rank[rootP] == rank[rootQ]) {
+                rank[rootP] += 1;
+            }
+        }
+        component -= 1;
+    }
+    
+    int getComponent() {
+        return component;
+    }
+}
+
 
 
 class Solution {
