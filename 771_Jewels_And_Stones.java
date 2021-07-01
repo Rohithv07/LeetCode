@@ -21,3 +21,21 @@ class Solution {
         return result;
     }
 }
+
+
+
+class Solution {
+    public int numJewelsInStones(String jewels, String stones) {
+        boolean [] isPresent = new boolean [256];
+        int countJewels = 0;
+        for (char ch : jewels.toCharArray()) {
+            isPresent[ch] = true;
+        }
+        for (char ch : stones.toCharArray()) {
+            if (isPresent[ch]) {
+                countJewels +=1;
+            }
+        }
+        return countJewels;
+    }
+}
