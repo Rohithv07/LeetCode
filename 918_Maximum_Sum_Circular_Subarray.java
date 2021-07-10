@@ -1,3 +1,7 @@
+// ref : https://leetcode.com/problems/maximum-sum-circular-subarray/discuss/178422/One-Pass
+// ref : https://www.youtube.com/watch?v=Q1TYVUEr-wY&list=PLEJXowNB4kPwR6C6yq3BzS-Jkyc6XE8kE&index=15
+
+
 /*
 The trick here is that to find the minimum subarray sum, we invert the sign of all the numbers in original subarray, and find the maximum subarray sum using Kadane algorithm. Then add it with the total sum. (which is similar to
 [total - minimum subarray sum ])
