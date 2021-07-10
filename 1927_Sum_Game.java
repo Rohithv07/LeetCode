@@ -36,3 +36,34 @@ class Solution {
         return Math.abs(diffSum) != Math.abs(round * 9);
     }
 }
+
+
+
+/*
+* ref : https://www.youtube.com/watch?v=LBB2E69Qxc8
+* Alice has the last turn, then alice wins
+* even number of '?' should be there
+* Smae number of question marks, they just cancels out
+* Bob guarantee the sum equal to n/2 * 9
+
+*/
+
+class Solution {
+    public boolean sumGame(String num) {
+        int length = num.length();
+        int balance = 0;
+        for (int i=0; i<length; i++) {
+            int number = 2 * (num.charAt(i) - '0');
+            if (num.charAt(i) == '?') {
+                number = 9;
+            }
+            if (i < length / 2) {
+                balance += number;
+            }
+            else {
+                balance -= number;
+            }
+        }
+        return balance != 0;
+    }
+}
