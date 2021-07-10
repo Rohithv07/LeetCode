@@ -39,3 +39,30 @@ class Solution {
         return circular == 0 ? currentNonCircularSum : circular;
     }
 }
+
+// one pass
+
+class Solution {
+    public int maxSubarraySumCircular(int[] nums) {
+        if (nums == null || nums.length == 0)
+            return 0;
+        int length = nums.length;
+        int maxStraight = Integer.MIN_VALUE;
+        int minStraight = Integer.MAX_VALUE;
+        int tempMax = 0;
+        int tempMin = 0;
+        int totalSum = 0;
+        for (int i=0; i<length; i++) {
+            totalSum += nums[i];
+            tempMax += nums[i];
+            maxStraight = Math.max(maxStraight, tempMax);
+            tempMax = tempMax < 0 ? 0 : tempMax;
+            tempMin += nums[i];
+            minStraight = Math.min(minStraight, tempMin);
+            tempMin = tempMin > 0 ? 0 : tempMin;
+        }
+        if (totalSum == minStraight)
+            return maxStraight;
+        return Math.max(maxStraight, totalSum - minStraight);
+    }
+}
