@@ -97,19 +97,19 @@ class Solution {
     public int kthSmallest(TreeNode root, int k) {
         if (root == null)
             return -1;
-        preOrder(root, k);
+        inOrder(root, k);
         return result;
     }
     
-    public void preOrder(TreeNode node, int k) {
+    public void inOrder(TreeNode node, int k) {
         if (node == null)
             return;
-        preOrder(node.left, k);
+        inOrder(node.left, k);
         count += 1;
         if (count == k) {
             result = node.val;
             return;
         }
-        preOrder(node.right, k);
+        inOrder(node.right, k);
     }
 }
