@@ -1,3 +1,46 @@
+// more efficient solution
+
+class Solution {
+    public List<Integer> findAnagrams(String s, String p) {
+        List<Integer> result = new ArrayList<>();
+        if (s.length() < p.length())
+            return result;
+        int [] count = new int [26];
+        for (char ch : p.toCharArray()) {
+            count[ch - 'a'] += 1;
+        }
+        int left = 0;
+        int right = 0;
+        int resultLength = p.length();
+        int length = s.length();
+        int counter = 0;
+        for (int number : count) {
+            if (number != 0)
+                counter ++;
+        }
+        while (right < length) {
+            char current = s.charAt(right);
+            count[current - 'a'] -= 1;
+            if (count[current - 'a'] == 0)
+                counter -= 1;
+            right += 1;
+            while (counter == 0) {
+                char leftChar = s.charAt(left);
+                count[leftChar - 'a'] += 1;
+                if (count[leftChar - 'a'] > 0)
+                    counter ++;
+                if (right - left == resultLength) {
+                    result.add(left);
+                }
+                left ++;
+            }
+        }
+        return result;
+    }
+}
+
+
+
 // 1 solution
 class Solution {
     public List<Integer> findAnagrams(String s, String p) {
