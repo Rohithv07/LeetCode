@@ -65,3 +65,51 @@ class Solution {
          return array;
      }
 }
+
+
+// using priorityQueue
+
+class Solution {
+    public int kthSmallest(TreeNode root, int k) {
+        if (root == null)
+            return -1;
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> Integer.compare(b, a));
+        inorderTraversal(root, pq, k);
+        return pq.poll();
+    }
+    
+    public void inorderTraversal(TreeNode node, PriorityQueue<Integer> pq, int k) {
+        if (node == null)
+            return;
+        pq.add(node.val);
+        if (pq.size() > k)
+            pq.remove();
+        inorderTraversal(node.left, pq, k);
+        inorderTraversal(node.right, pq, k);
+    }
+}
+
+// another efficient solution using recursion
+
+class Solution {
+    private int result = -1;
+    private int count = 0;
+    public int kthSmallest(TreeNode root, int k) {
+        if (root == null)
+            return -1;
+        preOrder(root, k);
+        return result;
+    }
+    
+    public void preOrder(TreeNode node, int k) {
+        if (node == null)
+            return;
+        preOrder(node.left, k);
+        count += 1;
+        if (count == k) {
+            result = node.val;
+            return;
+        }
+        preOrder(node.right, k);
+    }
+}
