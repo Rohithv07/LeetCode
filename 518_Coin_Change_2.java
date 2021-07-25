@@ -25,3 +25,34 @@ class Solution {
         return dp[length][amount];
     }
 }
+
+
+// using memoization - unbounded knapsack
+class Solution {
+    public int change(int amount, int[] coins) {
+        int [][] dp = new int [coins.length][amount + 1];
+        for (int i=0; i<coins.length; i++) {
+            for (int j=0; j<amount+1; j++) {
+                dp[i][j] = -1;
+            }
+        }
+        return backtrack(dp, amount, coins, 0);
+    }
+    
+    public int backtrack(int [][] dp, int amount, int coins[], int index) {
+        if (amount == 0)
+            return 1;
+        if (amount < 0 || index == coins.length)
+            return 0;
+        if (dp[index][amount] != -1) {
+            return dp[index][amount];
+        }
+        // use index coin or do not use index coin like knapsack where we have infinite number of items
+        int answer = 0;
+        answer += backtrack(dp, amount, coins, index+1); // skipped
+        answer += backtrack(dp, amount - coins[index], coins, index); // here we donot increase index as same item can be used many times
+        dp[index][amount] = answer;
+        return dp[index][amount];
+        
+    }
+}
