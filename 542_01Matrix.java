@@ -28,3 +28,46 @@ class Solution {
         return matrix;
     }
 }
+
+
+// dp
+
+class Solution {
+    public int[][] updateMatrix(int[][] mat) {
+        if (mat == null || mat.length == 0)
+            return new int [][]{};
+        int row = mat.length;
+        int col = mat[0].length;
+        for (int i=0; i<row; i++) {
+            for (int j=0; j<col; j++) {
+                if (mat[i][j] == 1) {
+                    if (i > 0 && j > 0) {
+                        mat[i][j] = Math.min(mat[i - 1][j], mat[i][j - 1]) + 1;
+                    }
+                    else if (i > 0) {
+                        mat[i][j] = mat[i - 1][j] + 1;
+                    }
+                    else if (j > 0) {
+                        mat[i][j] = mat[i][j - 1] + 1;
+                    }
+                    else {
+                        mat[i][j] = row + col;
+                    }
+                }
+            }
+        }
+        for (int i=row-1; i>=0; i--) {
+            for (int j=col-1; j>=0; j--) {
+                if (mat[i][j] > 1) {
+                    if (i < row - 1) {
+                        mat[i][j] = Math.min(mat[i][j], mat[i + 1][j] + 1);
+                    }
+                    if (j < col - 1) {
+                        mat[i][j] = Math.min(mat[i][j], mat[i][j + 1] + 1);
+                    }
+                }
+            }
+        }
+        return mat;
+    }
+}
