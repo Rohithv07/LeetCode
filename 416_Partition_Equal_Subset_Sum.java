@@ -31,3 +31,27 @@ class Solution {
         return dp[nums.length][neededSum];
     }
 }
+
+
+// single array solution
+
+class Solution {
+    public boolean canPartition(int[] nums) {
+        if (nums == null || nums.length == 0)
+            return false;
+        int totalSum = findTotalSum(nums);
+        if (totalSum % 2 != 0)
+            return false;
+        int partitionSum = totalSum / 2;
+        int n = nums.length;
+        boolean [] dpOptimised = new boolean[partitionSum + 1];
+        dpOptimised[0] = true;
+        for (int number : nums) {
+            for (int i=partitionSum; i>0; i--) {
+                if (i >= number)
+                    dpOptimised[i] = dpOptimised[i] || dpOptimised[i - number]; // similar to coin change 2
+            }
+        }
+        return dpOptimised[partitionSum];
+        //return subsetSum(dp, nums, partitionSum, n);
+    }
