@@ -35,3 +35,18 @@ class Solution {
         return result;
     }
 }
+
+
+
+/*
+
+Another possible last section code
+
+int previous = -1;
+for (int i=length-1; i>=0; i--) {
+    if (dp[i] == max && (previous % nums[i] == 0 || previous == -1)) {
+    result.add(nums[i]);
+    max = -1;
+    previous = nums[i];
+    }
+}
