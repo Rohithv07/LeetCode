@@ -65,3 +65,27 @@ public class Solution {
 	}
 }
 
+
+// dfs
+
+class Solution {
+    public List<List<Integer>> levelOrder(Node root) {
+        if (root == null)
+            return new ArrayList<>();
+        List<List<Integer>> result = new ArrayList<>();
+        dfs(root, result, 0);
+        return result;
+    }
+    
+    public void dfs(Node node, List<List<Integer>> result, int depth) {
+        if (node == null)
+            return;
+        if (result.size() <= depth) {
+            result.add(new ArrayList<>());
+        }
+        result.get(depth).add(node.val);
+        for (Node child : node.children) {
+            dfs(child, result, depth+1);
+        }
+    }
+}
