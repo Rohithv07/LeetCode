@@ -47,3 +47,23 @@ class Solution {
         
     }
 }
+
+
+// we only need to keep track of open brackts
+
+class Solution {
+    public int minSwaps(String s) {
+        if (s == null || s.length() == 0)
+            return 0;
+        int open = 0;
+        for (char ch : s.toCharArray()) {
+            if (open > 0 && ch == ']') {
+                open--;
+            }
+            else if (ch == '[') {
+                open++;
+            }
+        }
+        return (open + 1) / 2;
+    }
+}
