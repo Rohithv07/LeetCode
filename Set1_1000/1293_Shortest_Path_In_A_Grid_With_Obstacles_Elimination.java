@@ -57,3 +57,59 @@ public class Node {
         this.removed = removed;
     }
 }
+
+
+
+// another method
+
+
+class Solution {
+    
+    private static final int [][] directions = new int [][]{{0, 1}, {1, 0}, {-1, 0}, {0, -1}};
+    
+    public int shortestPath(int[][] grid, int k) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
+        int row = grid.length;
+        int col = grid[0].length;
+        if (k >= row + col - 2) {
+            return row + col - 2;
+        }
+        return bfs(grid, k, row, col);
+    }
+    
+    private int bfs(int [][] grid, int k, int row, int col) {
+        Queue<int []> queue = new LinkedList<>();
+        boolean [][][] visited = new boolean [row][col][k + 1];
+        queue.offer(new int []{0, 0, k});
+        int shortestDistance = 0;
+        visited[0][0][k] = true;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i=0; i<size; i++) {
+                int [] currentCell = queue.poll();
+                int x = currentCell[0];
+                int y = currentCell[1];
+                int obstacle = currentCell[2];
+                if (x == row - 1 && y == col - 1) {
+                    return shortestDistance;
+                }
+                for (int [] dir : directions) {
+                    int newX = dir[0] + x;
+                    int newY = dir[1] + y;
+                    if (newX < 0 || newX >= row || newY < 0 || newY >= col) {
+                        continue;
+                    }
+                    int remaining = obstacle - grid[newX][newY];
+                    if (remaining >= 0 && !visited[newX][newY][remaining]) {
+                        queue.offer(new int [] {newX, newY, remaining});
+                        visited[newX][newY][remaining] = true;   
+                    }
+                }
+            }
+            shortestDistance += 1;
+        }
+        return -1;
+    }
+}
