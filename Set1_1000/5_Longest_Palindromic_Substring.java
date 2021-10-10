@@ -24,3 +24,35 @@ class Solution {
         return right - left - 1;
     }
 }
+
+
+class Solution {
+    private int resultStart = 0;
+    private int resultLength = 0;
+    public String longestPalindrome(String s) {
+        if (s == null || s.length() == 0) {
+            return "";
+        }
+        if (s.length() == 1) {
+            return s;
+        }
+        int length = s.length();
+        for (int start=0; start<length-1; start++) {
+            expand(s, start, start);
+            expand(s, start, start + 1);
+        }
+        return s.substring(resultStart, resultStart + resultLength);
+    }
+    
+    public void expand(String s, int start, int end) {
+        while (start >= 0 && end < s.length() && s.charAt(start) == s.charAt(end)) {
+            start--;
+            end++;
+        }
+        if (resultLength < end - start - 1) {
+            resultLength = end - start - 1;
+            resultStart = start + 1;
+        }
+    }
+    
+}
