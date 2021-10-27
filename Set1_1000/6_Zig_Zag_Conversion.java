@@ -24,3 +24,31 @@ class Solution {
         return result.toString();
     }
 }
+
+// without using hashmap
+
+class Solution {
+    public String convert(String s, int numRows) {
+        if (numRows <= 1) {
+            return s;
+        }
+        StringBuilder result = new StringBuilder();
+        StringBuilder [] buildChar = new StringBuilder[numRows];
+        for (int i=0; i<numRows; i++) {
+            buildChar[i] = new StringBuilder();
+        }
+        int directions = -1; // -1 denotes up directions and +1 denots down direction
+        int rowIndex = 0;
+        for (char ch : s.toCharArray()) {
+            buildChar[rowIndex].append(ch);
+            if (rowIndex == 0 || rowIndex == numRows - 1) {
+                directions = 0 - directions;
+            }
+            rowIndex += directions;
+        }
+        for (int i=0; i<numRows; i++) {
+            result.append(buildChar[i]);
+        }
+        return result.toString();
+    }
+}
