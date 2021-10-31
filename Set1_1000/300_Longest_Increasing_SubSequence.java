@@ -19,6 +19,36 @@ class Solution {
     }
 }
 
+// binary search simple form
+class Solution {
+    public int lengthOfLIS(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int length = nums.length;
+        int [] dp = new int [length];
+        int maxLength = 0;
+        for (int number : nums) {
+            int left = 0;
+            int right = maxLength;
+            while (left != right) {
+                int middle = left + (right - left) / 2;
+                if (dp[middle] < number) {
+                    left = middle + 1;
+                }
+                else {
+                    right = middle;
+                }
+            }
+            dp[left] = number;
+            if (left == maxLength) {
+                maxLength++;
+            }
+        }
+        return maxLength;
+    }
+}
+
 
 class Solution {
     public int lengthOfLIS(int[] nums) {
