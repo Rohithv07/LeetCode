@@ -32,3 +32,30 @@ class Solution {
 }
 
 // in - place and minimum number of operations                 
+
+
+
+
+// another method using count of zero
+
+class Solution {
+    public void moveZeroes(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return;
+        }
+        int length = nums.length;
+        int count = 0;
+        for (int i=0; i<length; i++) {
+            if (nums[i] == 0) {
+                count++;
+            }
+            else {
+                if (count > 0) {
+                    int temp = nums[i];
+                    nums[i] = 0;
+                    nums[i - count] = temp;
+                }
+            }
+        }
+    }
+}
