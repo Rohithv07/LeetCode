@@ -18,6 +18,28 @@ class Solution {
     }
 }
 
+// using suffix and prefix product and comparing max
+
+class Solution {
+    public int maxProduct(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        int length = nums.length;
+        int suffix = 0;
+        int prefix = 0;
+        int result = 0;
+        for (int i=0; i<length; i++) {
+            prefix = (prefix == 0 ? 1 : prefix) * nums[i];
+            suffix = (suffix == 0 ? 1 : suffix) * nums[length - i - 1];
+            result = Math.max(result, Math.max(prefix, suffix));
+        }
+        return result;
+    }
+}
 
 Another Solution:
 
