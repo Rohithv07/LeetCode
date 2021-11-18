@@ -74,3 +74,55 @@ class Solution {
 
 
 // reference video : https://www.youtube.com/watch?v=LPFhl65R7ww
+
+
+
+
+
+
+
+// https://youtu.be/NTop3VTjmxk
+
+
+// here we are doing the binary search on the minimal length
+// so tc - O(min(log(length1, length2)))
+class Solution {
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        if (nums1.length > nums2.length) {
+            return findMedianSortedArrays(nums2, nums1);
+        }
+        int length1 = nums1.length;
+        int length2 = nums2.length;
+        int left = 0;
+        int right = length1;
+        while (left <= right) {
+            int cut1 = left + (right - left) / 2;
+            int cut2 = ((length1 + length2 + 1) / 2) - cut1;
+            
+            int leftPart1 = cut1 == 0 ? Integer.MIN_VALUE : nums1[cut1 - 1];
+            int leftPart2 = cut2 == 0 ? Integer.MIN_VALUE : nums2[cut2 - 1];
+            int rightPart1 = cut1 == length1 ? Integer.MAX_VALUE : nums1[cut1];
+            int rightPart2 = cut2 == length2 ? Integer.MAX_VALUE : nums2[cut2];
+            
+            /*
+            -----l1 | r1 -----
+            -----l2 | r2 -----
+            
+            l1 <= r2 and l2 <= r1
+            */
+            if (leftPart1 <= rightPart2 && leftPart2 <= rightPart1) {
+                if ((length1 + length2) % 2 == 0) {
+                    return (Math.max(leftPart1, leftPart2) + Math.min(rightPart1, rightPart2)) / 2.0;
+                }
+                return (double)Math.max(leftPart1, leftPart2);
+            }
+            if (leftPart1 > rightPart2) {
+                right = cut1 - 1;
+            }
+            else {
+                left = cut1 + 1;
+            }
+        }
+        return 0.0;
+    }
+}
