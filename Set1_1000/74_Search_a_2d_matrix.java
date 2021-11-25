@@ -40,7 +40,7 @@ class Solution {
 }
 
 
-// another way of doing binarysearch
+// another way of doing (not binary search)
 
 class Solution {
     public boolean searchMatrix(int[][] matrix, int target) {
