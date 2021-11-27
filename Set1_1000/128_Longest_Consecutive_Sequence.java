@@ -17,6 +17,33 @@ class Solution {
 	}
 }
 
+// using hashset
+// ref : https://www.youtube.com/watch?v=qgizvmgeyUM&list=PLgUwDviBIf0p4ozDR_kJJk ONnb1wdx2Ma&index=21
+
+class Solution {
+    public int longestConsecutive(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
+        int length = nums.length;
+        Set<Integer> set = new HashSet<>();
+        for (int number : nums) {
+            set.add(number);
+        }
+        int result = 0;
+        for (int number : set) {
+            if (!set.contains(number - 1)) {
+                int current = 1;
+                while (set.contains(number + 1)) {
+                    current++;
+                    number++;
+                }
+                result = Math.max(result, current);
+            }
+        }
+        return result;
+    }
+}
 
 
 // using hashset
@@ -38,3 +65,6 @@ int result = 0;
                 return result;
         }
         return result;
+
+
+
