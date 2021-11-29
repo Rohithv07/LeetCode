@@ -68,3 +68,120 @@ class Solution {
         return head;
     }
 }
+
+
+
+
+// straight forward approach that might come to our mind
+// reverse whole list
+// reverse first k parts
+// reverse the remaining parts same as rotate array logic
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if (head == null || k == 0) {
+            return head;
+        }
+        int length = 0;
+        ListNode current = head;
+        while (current != null) {
+            current = current.next;
+            length++;
+        }
+        k %= length;
+        if (k == 0) {
+            return head;
+        }
+        ListNode fullReverse = reverse(head);
+        current = fullReverse;
+        System.out.println(length);
+        ListNode pointer = fullReverse;
+        while (k-- > 1) {
+            pointer = pointer.next;
+        }
+        ListNode nextPointer = pointer.next;
+        pointer.next = null;
+        ListNode firstPartReverse = reverse(fullReverse);
+        ListNode secondPartReverse = reverse(nextPointer);
+        ListNode result = new ListNode(0);
+        current = result;
+        while (firstPartReverse != null) {
+            current.next = new ListNode(firstPartReverse.val);
+            current = current.next;
+            firstPartReverse = firstPartReverse.next;
+        }
+        while (secondPartReverse != null) {
+            current.next = new ListNode(secondPartReverse.val);
+            current = current.next;
+            secondPartReverse = secondPartReverse.next;
+        }
+        return result.next;
+    }
+    
+    private ListNode reverse(ListNode node) {
+        if (node == null) {
+            return null;
+        }
+        ListNode current = node;
+        ListNode previous = null;
+        while (current != null) {
+            ListNode currentNext = current.next;
+            current.next = previous;
+            previous = current;
+            current = currentNext;
+        }
+        return previous;
+    }
+}
+
+
+// from ref video : https://youtu.be/9VPm6nEbVPA
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if (head == null || k == 0) {
+            return head;
+        }
+        // compute length and the condition is current.next != null
+        ListNode current = head;
+        int length = 1;
+        while (current.next != null) {
+            length++;
+            current = current.next;
+        }
+        k %= length;
+        if (k == 0) {
+            return head;
+        }
+        // make the next of last node to the head of the node making it a circular linked list
+        current.next = head;
+        k = length - k;
+        // now just traverse until k, make the next of current as head and then make current.nexy = null
+        while (k-- > 0) {
+            current = current.next;
+        }
+        head = current.next;
+        current.next = null;
+        return head;
+    }
+}
