@@ -24,3 +24,38 @@ class Solution {
         }
     }
 }
+
+
+class Solution {
+    public List<List<Integer>> combinationSum2(int[] candidates, int target) {
+        if (candidates == null || candidates.length == 0) {
+            return new ArrayList<>();
+        }
+        Arrays.sort(candidates);
+        List<List<Integer>> result = new ArrayList<>();
+        List<Integer> current = new ArrayList<>();
+        backtrack(result, current, candidates, target, 0, 0);
+        return result;
+    }
+    
+    public void backtrack(List<List<Integer>> result, List<Integer> current, int [] candidates, int target, int currentSum, int position) {
+        if (currentSum > target) {
+            return;
+        }
+        if (currentSum == target) {
+            result.add(new ArrayList<>(current));
+            return;
+        }
+        for (int i=position; i<candidates.length; i++) {
+            if (i > position && candidates[i] == candidates[i - 1]) {
+                continue;
+            }
+            if (currentSum + candidates[i] > target) {
+                break;
+            }
+            current.add(candidates[i]);
+            backtrack(result, current, candidates, target, currentSum + candidates[i], i + 1);
+            current.remove(current.size() - 1);
+        }
+    }
+}
