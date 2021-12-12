@@ -1,3 +1,6 @@
+// in both cases typically we are trying to find the left smaller and right smaller of current element and then trying to find the area
+
+
 class Solution {
     public int largestRectangleArea(int[] heights) {
         if (heights == null || heights.length == 0)
