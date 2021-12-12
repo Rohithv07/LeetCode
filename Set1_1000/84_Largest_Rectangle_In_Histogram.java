@@ -29,23 +29,30 @@ class Solution {
     }
 }
 
-// using stack
+
+// using stack 1 pass : https://youtu.be/jC_cWLy7jSI
 class Solution {
-     public int largestRectangleArea(int[] heights) {
-         int length = heights.length;
-         int max = 0;
-         Stack<Integer> stack = new Stack<>();
-         for (int i=0; i<=length; i++) {
-             int currentHeight = (i == length ? 0 : heights[i]);
-             if (stack.isEmpty() || currentHeight >= heights[stack.peek()]) {
-                 stack.push(i);
-             }
-             else {
-                 int pop = stack.pop();
-                 max = Math.max(max, heights[pop] * (stack.isEmpty() ? i : i - 1 - stack.peek()));
-                 i -= 1;
-             }
-         }
-         return max;
-     }
+    public int largestRectangleArea(int[] heights) {
+        if (heights == null || heights.length == 0) {
+            return 0;
+        }
+        int result = 0;
+        int length = heights.length;
+        Stack<Integer> stack = new Stack<>();
+        for (int i=0; i<=length; i++) {
+            while (!stack.isEmpty() && (i == length || heights[stack.peek()] >= heights[i])) {
+                int height = heights[stack.pop()];
+                int width = 0;
+                if (stack.isEmpty()) {
+                    width = i;
+                }
+                else {
+                    width = i - stack.peek() - 1;
+                }
+                result = Math.max(result, height * width);
+            }
+            stack.push(i);
+        }
+        return result;
+    }
 }
