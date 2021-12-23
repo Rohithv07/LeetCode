@@ -1,4 +1,4 @@
-/*
+
 class Solution {
     public boolean isBipartite(int[][] graph) {
         int row = graph.length;
@@ -66,7 +66,7 @@ public class UnionFind {
         return numberOfComponents;
     }
 }
-*/
+
 
 /*
 0: Haven't been colored yet.
@@ -94,6 +94,73 @@ class Solution {
         colors[node] = color;       
         for (int next : graph[node]) {
             if (!validColor(graph, colors, -color, next)) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+
+// using dfs and bfs helper functions combined
+
+
+class Solution {
+    public boolean isBipartite(int[][] graph) {
+        if (graph == null || graph.length == 0) {
+            return true;
+        }
+        int length = graph.length;
+        int [] color = new int [length];
+        for (int i=0; i<length; i++) {
+            // if (color[i] == 0 && !dfs(graph, color, 1, i)) {
+            //     return false;
+            // }
+            if (color[i] == 0 && !bfs(graph, color, i, 1)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    public boolean bfs(int [][] graph, int [] color, int node, int coloring) {
+        color[node] = coloring;
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(node);
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i=0; i<size; i++) {
+                int currentNode = queue.poll();
+                int [] children = graph[currentNode];
+                for (Integer child : children) {
+                    if (color[child] == 0) {
+                        if (color[currentNode] == coloring) {
+                            color[child] = -coloring;
+                        }
+                        else if (color[currentNode] == -coloring) {
+                            color[child] = coloring;
+                        }
+                        queue.offer(child);
+                    }
+                    else {
+                        if (color[child] == color[currentNode]) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+    
+    public boolean dfs(int [][] graph, int [] color, int coloring, int node) {
+        if (color[node] != 0) {
+            return color[node] == coloring;
+        }
+        color[node] = coloring;
+        int [] children = graph[node];
+        for (Integer child : children) {
+            if (!dfs(graph, color, -coloring, child)) {
                 return false;
             }
         }
