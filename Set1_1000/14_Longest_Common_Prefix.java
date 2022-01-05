@@ -36,3 +36,33 @@ class Solution {
         return sb.toString();
     }
 }
+
+// optimised
+
+class Solution {
+    public String longestCommonPrefix(String[] arr) {
+        if (arr == null || arr.length == 0) {
+            return "";
+        }
+        int length = arr.length;
+        if (length == 1) {
+            return arr[0];
+        }
+        StringBuilder sb = new StringBuilder();
+        boolean canWeInclude = false;
+        for (int i=0; i<arr[0].length(); i++) {
+            canWeInclude = true;
+            for (int j=1; j<length; j++) {
+                if (i >= arr[j].length() || arr[0].charAt(i) != arr[j].charAt(i)) {
+                    canWeInclude = false;
+                    break;
+                }
+            }
+            if (!canWeInclude) {
+                break;
+            }
+            sb.append(arr[0].charAt(i));
+        }
+        return sb.toString();
+    }
+}
