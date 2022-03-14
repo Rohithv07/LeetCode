@@ -24,3 +24,20 @@ class Solution {
         return result;
     }
 }
+
+// space optimised
+class Solution {
+    public List<Integer> findKDistantIndices(int[] nums, int key, int k) {
+        int length = nums.length;
+        List<Integer> result = new ArrayList<>();
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < length; j++) {
+                if (Math.abs(i - j) <= k && nums[j] == key) {
+                    result.add(i);
+                    break;// this will take care of duplicate and we can remove extra space
+                }
+            }
+        }
+        return result;
+    }
+}
