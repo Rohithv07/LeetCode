@@ -19,3 +19,23 @@ class Solution {
         return removal + (length - removal) % 2;
     }
 }
+
+
+// another approach same idea : https://www.youtube.com/watch?v=A98psR_mIMQ
+
+class Solution {
+    public int minDeletion(int[] nums) {
+        int length = nums.length;
+        int removal = 0;
+        for (int i = 0; i < length - 1; i++) {
+            int shiftIndex = i - removal;
+            if (nums[i] == nums[i + 1] && shiftIndex % 2 == 0) {
+                removal++;
+            }
+        }
+        if ((length - removal) % 2 == 1) {
+            removal++;
+        }
+        return removal;
+    }
+}
