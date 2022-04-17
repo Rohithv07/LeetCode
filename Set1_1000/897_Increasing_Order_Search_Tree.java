@@ -35,3 +35,40 @@ class Solution {
         inorder(node.right, list);
     }
 }
+
+
+// without using arraylist
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public TreeNode increasingBST(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        return makeIncreasing(root, null);
+    }
+    
+    public TreeNode makeIncreasing(TreeNode node, TreeNode tail) {
+        if (node == null) {
+            return tail;
+        }
+        TreeNode result = makeIncreasing(node.left, node);
+        node.left = null;
+        node.right = makeIncreasing(node.right, tail);
+        return result;
+    }
+}
