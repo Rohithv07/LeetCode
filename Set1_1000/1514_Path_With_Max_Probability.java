@@ -42,3 +42,56 @@ class Solution {
         return graph;
     }
 }
+
+
+// use maxheap to track the max probability
+
+class Solution {
+    public double maxProbability(int n, int[][] edges, double[] succProb, int start, int end) {
+        double [] distance = new double [n];
+        distance[start] = 1.0;
+        List<List<Pair>> graph = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            graph.add(new ArrayList<>());
+        }
+        for (int i = 0; i < edges.length; i++) {
+            int s = edges[i][0];
+            int d = edges[i][1];
+            double weight = succProb[i];
+            graph.get(s).add(new Pair(d, weight));
+            graph.get(d).add(new Pair(s, weight));
+        }
+        
+        // here we need max probability, so we use maxHeap
+        PriorityQueue<Pair> maxHeap = new PriorityQueue<>((t1, t2) -> Double.compare(t2.weight, t1.weight));
+        maxHeap.offer(new Pair(start, distance[start]));
+        while (!maxHeap.isEmpty()) {
+            Pair current = maxHeap.poll();
+            int s = current.start;
+            double weight = current.weight;
+            if (s == end) {
+                return weight;
+            }
+            List<Pair> children = graph.get(s);
+            for (Pair child : children) {
+                int childNode = child.start;
+                double childWeight =  child.weight;
+                if (distance[s] * childWeight > distance[childNode]) {
+                    distance[childNode] = distance[s] * childWeight;
+                    maxHeap.offer(new Pair(childNode, distance[childNode]));
+                }
+            }
+        }
+        return 0.0;
+    }
+}
+
+class Pair {
+    int start;
+    double weight;
+    
+    public Pair(int start, double weight) {
+        this.start = start;
+        this.weight = weight;
+    }
+}
