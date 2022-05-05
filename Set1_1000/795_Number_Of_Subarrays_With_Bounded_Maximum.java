@@ -29,3 +29,32 @@ class Solution {
 10 8  7  3
 
 */
+
+
+// another approach
+
+
+class Solution {
+    public int numSubarrayBoundedMax(int[] nums, int left, int right) {
+        int length = nums.length;
+        if (length == 1) {
+            return nums[0] >= left && nums[0] <= right ? 1 : -1;
+        }
+        int count = 0;
+        int pointer1 = 0;
+        int pointer2 = -1;
+        for (int i = 0; i < length; i++) {
+            int current = nums[i];
+            if (current > right) {
+                pointer1 = i + 1;
+            }
+            else if (current >= left) {
+                pointer2 = i;
+            }
+            if (pointer1 <= pointer2) {
+                count += pointer2 - pointer1 + 1;
+            }
+        }
+        return count;
+    }
+}
