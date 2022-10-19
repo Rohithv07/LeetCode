@@ -18,7 +18,7 @@ class Solution {
         for (char ch : s.toCharArray()) {
             robotHand.push(ch);
             count[ch - 'a']--;
-            while (!robotHand.isEmpty() && robotHand.peek() < findSmallestChar(count)) {
+            while (!robotHand.isEmpty() && robotHand.peek() <= findSmallestChar(count)) {
                 char toPaper = robotHand.pop();
                 onPaper.append(toPaper);
             }
